@@ -30,5 +30,4 @@ jobs:
           WORKSHEET=${{ secrets.WORKSHEET }}
           GOOGLE_SA_KEY_JSON=${{ secrets.GOOGLE_SA_KEY_JSON }}
           
-        run:
-          run: python etl.py
+        run: python etl.py
