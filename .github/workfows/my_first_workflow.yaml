@@ -1,0 +1,34 @@
+name : firt workflow gsheet -> supabase
+on:
+  workflow_dispatch:
+
+jobs:
+  etl:
+    runs-on: ubuntu-latest
+          
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4 # This action clones the content of the current repo into the remote runner
+
+      - name: Setup Python
+        uses: actions/setup-python@v5 # This action installs python (version below)
+        with:
+          python-version: "3.11" 
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt # It installs all the necessary dependencies from requirements.txt
+
+      - name: Run ETL
+        env:
+          PG_USER=${{ secrets.PG_USER }}
+          PG_PASSWORD=${{ secrets.PG_PASSWORD }}
+          PG_HOST=${{ secrets.PG_HOST }}
+          PG_PORT=${{ secrets.PG_PORT }}
+          PG_DB=${{ secrets.PG_DB }}
+          PG_TABLE=${{ secrets.PG_TABLE }}
+          SHEET_ID=${{ secrets.SHEET_ID }}
+          WORKSHEET=${{ secrets.WORKSHEET }}
+          GOOGLE_SA_KEY_JSON=${{ secrets.GOOGLE_SA_KEY_JSON }}
+          
+        run:
+          run: python etl.py
